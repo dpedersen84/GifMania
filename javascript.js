@@ -1,48 +1,64 @@
 $(document).ready(function() {
     //Initial Button Array
-    var searches = ["dogs", "cats", "pigeons", "gremlins"];
+    var gifArray = ["dogs", "cats", "pigeons", "gremlins"];
 
-    //Link to API with AJAX
-    var apikey =    "B03LsUdpGenllnZhlpbjE0jahShFSbKn";
-    var search =    $(this).attr("data-name");
-    var queryURL =  "https://api.giphy.com/v1/gifs/search?api_key="
-                     + apikey + "&q=" + search; 
 
-    $.ajax({
-        url:    queryURL,
-        method: "GET"
-    }).then (function(response) {
-        console.log(queryURL);
-        console.log(response);
 
-        var searchDiv = $("<div class='search'>");
+    function gifDisplay() {
 
-        var gifUrl = response.data.image_original_url[i];
+        var gif = $(this).attr("data-name");
 
-        var gifs = $("<img>");
+        var queryURL =  "https://api.giphy.com/v1/gifs/search?q="
+                        + gif + "&api_key=dc6zaTOxFJmzC&limit=10"; 
 
-        gifs.attr("src", gifUrl);
-        gifs.attr("alt", "gif");
-
+        $.ajax({
+            url:    queryURL,
+            method: "GET"
         })
+        .then (function(response) {
+            console.log(queryURL);
+            console.log(response);
 
+            var results = response.data;
 
+            //For loop for the results of gif search
+            for (var i = 0; i < results.length; i++) {
+                var gifDiv = $("<div>");
+                var gifImage = $("<img>");
+                gifImage.attr("src", results[i].images.fixed_height.url);
+
+                gifDiv.prepend(gifImage);
+
+                $("#gifs").prepend(gifDiv);
+            }
+            
+        })
+    }
+            
+    //Render Default Buttons on Page
     function btnRender () {
-
         $("#buttons").empty();
-
         //For loop to generate buttons for searches
-        for (var i = 0; i < searches.length; i++) {
-            var btn = $("<button>");
-            btn.addClass("btn btn-primary")
-            btn.attr("data-name", searches[i])
-            btn.text(searches[i]);
-            $("#buttons").append(btn);
+        for (var i = 0; i < gifArray.length; i++) {
+            var b = $("<button>");
+            b.addClass("btn btn-danger btn-gif")
+            b.attr("data-name", gifArray[i])
+            b.text(gifArray[i]);
+            $("#buttons").append(b);
         }
     }
-
     btnRender ();
     
+    //Add Gif Buttons via Search Button
+    $("#add-gif").on("click", function() { 
+        event.preventDefault();
+        var newGif =    $("#gif-input").val();
+        gifArray.push(newGif);
+        btnRender ();
+    });
+
+    $(document).on("click", ".btn-gif", gifDisplay);
+
 });//END
 
 
