@@ -1,9 +1,9 @@
 $(document).ready(function() {
     //Initial Button Array
-    var gifArray = ["dogs", "cats", "pigeons", "gremlins"];
+    var gifArray = ["doug", "rugrats", "angry beavers", "hey arnold", "ren and stimpy"];
 
 
-
+    //Function to Display Gifs on Page
     function gifDisplay() {
 
         var gif = $(this).attr("data-name");
@@ -25,8 +25,10 @@ $(document).ready(function() {
             for (var i = 0; i < results.length; i++) {
                 var gifDiv = $("<div>");
                 var gifImage = $("<img>");
-                gifImage.attr("src", results[i].images.fixed_height.url);
-
+                gifImage.addClass("still gif-css")
+                gifImage.attr("src", results[i].images.fixed_height_still.url);
+                gifImage.
+                gifImage.addClass("data-animate", results[i].images.fixed_height.url)
                 gifDiv.prepend(gifImage);
 
                 $("#gifs").prepend(gifDiv);
@@ -35,13 +37,13 @@ $(document).ready(function() {
         })
     }
             
-    //Render Default Buttons on Page
+    //Render Default Buttons on Page from the gifArray
     function btnRender () {
         $("#buttons").empty();
         //For loop to generate buttons for searches
         for (var i = 0; i < gifArray.length; i++) {
             var b = $("<button>");
-            b.addClass("btn btn-danger btn-gif")
+            b.addClass("btn btn-basic btn-gif")
             b.attr("data-name", gifArray[i])
             b.text(gifArray[i]);
             $("#buttons").append(b);
@@ -49,7 +51,7 @@ $(document).ready(function() {
     }
     btnRender ();
     
-    //Add Gif Buttons via Search Button
+    //Add Buttons via Search to gifArray
     $("#add-gif").on("click", function() { 
         event.preventDefault();
         var newGif =    $("#gif-input").val();
@@ -57,14 +59,10 @@ $(document).ready(function() {
         btnRender ();
     });
 
+    //Click Event to display Gifs
     $(document).on("click", ".btn-gif", gifDisplay);
 
 });//END
-
-
-//variables
-//functions
-//main process        
 
 
 
