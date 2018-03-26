@@ -25,18 +25,20 @@ $(document).ready(function() {
             //For loop for the results of gif search
             for (var i = 0; i < results.length; i++) {
 
-                var gifDiv = $("<div>");
+                var gifDiv = $("<div class>");
                 var gifImage = $("<img>");
                 var rating = results[i].rating;
 
                 var gifRating = $("<p>").text("Rating: " + rating);
 
                 //Each image is given below:
+                
                 gifImage.attr("src", results[i].images.fixed_height_still.url);
                 gifImage.attr("data-still", results[i].images.fixed_height_still.url);
                 gifImage.attr("data-animate", results[i].images.fixed_height.url);
                 gifImage.attr("data-state", "still");
                 gifImage.addClass("gif");
+                gifDiv.addClass("col-lg-3")
 
                 //DOM
                 $("#gifs").prepend(gifDiv);
@@ -63,7 +65,7 @@ $(document).ready(function() {
 
     //Function to animate/freeze gifs
     function gifState () {
-        $(".gif").on("click", function () {
+        $(".gif").on("click", function () { //Must double-click -- Why?
         var state = $(this).attr("data-state");
 
         if(state === "still") {
